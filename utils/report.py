@@ -2,6 +2,7 @@ import calendar
 from datetime import date
 import config as cfg
 from utils.jira import search_issues
+from utils.logger import calc_log_in_secs
 from utils.time import time_humanize, str_to_secs
 
 
@@ -59,6 +60,10 @@ def calc_efficiency(issues_time_sec, work_days_sec, holidays_sec=0):
     return 1.0 * issues_time_sec / (work_days_sec - holidays_sec)
 
 
+def calc_total_sec(issues, add, holi, eff):
+    return int(issues + add + holi * eff)
+
+
 def report(args):
     now = date.today()
     if now.month > 1:
@@ -69,11 +74,6 @@ def report(args):
     print "################# ISSUES ##################"
 
     issues_secs = calc_total(search_issues(for_date))
-
-    print("ISSUES TIME = {issues_time} ({issues_time_hours})".format(
-        issues_time=time_humanize(issues_secs),
-        issues_time_hours=time_humanize(issues_secs, True)
-    ))
 
     print ""
     print "############### HOLIDAYS ##################"
@@ -87,7 +87,7 @@ def report(args):
     print ""
     print "################# OVERALL ##################"
     # TODO: should be interactively requested
-    additional_work = str_to_secs("3d 4h 30m")
+    additional_work = calc_log_in_secs(year=for_date.year, month=for_date.month)
 
     efficiency = calc_efficiency(issues_secs + additional_work, work_days_sec, holidays_sec)
 
@@ -96,9 +96,24 @@ def report(args):
         work_days_hours=time_humanize(work_days_sec, True)
     ))
 
+    print("ISSUES TIME = {issues_time} ({issues_time_hours})".format(
+        issues_time=time_humanize(issues_secs),
+        issues_time_hours=time_humanize(issues_secs, True)
+    ))
+
+    print("ADDITIONAL LOG = {additional_work} ({additional_work_hours})".format(
+        additional_work=time_humanize(additional_work),
+        additional_work_hours=time_humanize(additional_work, True),
+    ))
+
     print("HOLIDAY DAYS = {holidays}d ({holidays_hours})".format(
         holidays=holidays,
         holidays_hours=time_humanize(holidays_sec, True)
     ))
 
     print "EFFICIENCY = {efficiency}".format(efficiency=efficiency)
+
+    total = calc_total_sec(issues_secs, additional_work, holidays_sec, efficiency)
+    print "TOTAL = ISSUES_TIME + ADDITIONAL_LOG + HOLIDAYS * EFFICIENCY = {total}".format(
+        total=time_humanize(total, True)
+    )
