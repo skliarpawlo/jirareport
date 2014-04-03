@@ -1,16 +1,22 @@
 import base64
+import calendar
 from httplib import HTTPSConnection
 import json
 import urllib
 import config as cfg
 
 
-def search_issues():
+def search_issues(for_date):
     search_api_path = "/rest/api/2/search"
+
+    days_in_month = calendar.monthrange(for_date.year, for_date.month)[1]
+    start_date = for_date.replace(day=1)
+    end_date = for_date.replace(day=days_in_month)
+
     jql = "project = {project_id} AND status in (Resolved, Closed) AND resolved >= {start_date} AND resolved <= {end_date} AND assignee in ({user})".format(
         project_id=cfg.PROJECT_ID,
-        start_date="2014-03-01",
-        end_date="2014-03-31",
+        start_date=start_date.strftime("%Y-%m-%d"),
+        end_date=end_date.strftime("%Y-%m-%d"),
         user=cfg.USER,
     )
 
