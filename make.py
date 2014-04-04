@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from utils.args import subcommand_parser
 
 if __name__ == "__main__":
