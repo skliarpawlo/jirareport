@@ -71,9 +71,14 @@ def report(args):
     else:
         for_date = now.replace(year=now.year - 1, month=12, day=1)
 
+    print ""
     print "################# ISSUES ##################"
 
     issues_secs = calc_total(search_issues(for_date))
+
+    print ""
+    print "############ ADDITIONAL LOG ##############"
+    additional_work = calc_log_in_secs(year=for_date.year, month=for_date.month)
 
     print ""
     print "############### HOLIDAYS ##################"
@@ -86,8 +91,6 @@ def report(args):
 
     print ""
     print "################# OVERALL ##################"
-    # TODO: should be interactively requested
-    additional_work = calc_log_in_secs(year=for_date.year, month=for_date.month)
 
     efficiency = calc_efficiency(issues_secs + additional_work, work_days_sec, holidays_sec)
 
@@ -101,15 +104,17 @@ def report(args):
         issues_time_hours=time_humanize(issues_secs, True)
     ))
 
-    print("ADDITIONAL LOG = {additional_work} ({additional_work_hours})".format(
-        additional_work=time_humanize(additional_work),
-        additional_work_hours=time_humanize(additional_work, True),
-    ))
+    if additional_work > 0:
+        print("ADDITIONAL LOG = {additional_work} ({additional_work_hours})".format(
+            additional_work=time_humanize(additional_work),
+            additional_work_hours=time_humanize(additional_work, True),
+        ))
 
-    print("HOLIDAY DAYS = {holidays}d ({holidays_hours})".format(
-        holidays=holidays,
-        holidays_hours=time_humanize(holidays_sec, True)
-    ))
+    if holidays_sec > 0:
+        print("HOLIDAY DAYS = {holidays}d ({holidays_hours})".format(
+            holidays=holidays,
+            holidays_hours=time_humanize(holidays_sec, True)
+        ))
 
     print "EFFICIENCY = {efficiency}".format(efficiency=efficiency)
 

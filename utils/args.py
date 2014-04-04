@@ -16,7 +16,8 @@ report_parser.set_defaults(func=report)
 log_parser = subparsers.add_parser(u'log', description=u"subcommand for logging additional activities such as long time meetings")
 log_parser.add_argument(u'-m', metavar=u'message', help=u'activity description', required=True)
 log_parser.add_argument(u'-t', metavar=u'time', help=u'time (like 1d 3h)', required=True)
-log_parser.set_defaults(func=log)
+log_parser.add_argument(u'--type', metavar=u'type', help=u'Payed: work | ill | vacation, Not payed: any other', required=False)
+log_parser.set_defaults(func=log, type=u"work")
 
 
 if __name__ == "__main__":
