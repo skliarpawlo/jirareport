@@ -55,3 +55,7 @@ def time_humanize(time_in_sec, hours_only=False):
             res.append("{hours:.1f}h".format(hours=hours))
 
     return " ".join(res)
+
+
+def days_to_sec(days):
+    return days * cfg.HOURS_IN_DAY * 60 * 60

@@ -2,6 +2,7 @@ import argparse
 from datetime import date
 from logger import log
 from report import report
+import config as cfg
 
 subcommand_parser = argparse.ArgumentParser(description=u"Util for making monthly reports. Includes:"
                                                         u"searching JIRA tasks for period,"
@@ -26,7 +27,7 @@ log_parser.add_argument(u'-m', metavar=u'message', help=u'activity description',
 log_parser.add_argument(u'-t', metavar=u'time', help=u'time (like 1d 3h)', required=True)
 log_parser.add_argument(u'-d', metavar=u'y/m/d', help=u'when (y/m/d)', required=False)
 log_parser.add_argument(u'--type', metavar=u'type', help=u'Payed: work | ill | vacation, Not payed: any other', required=False)
-log_parser.set_defaults(func=log, type=u"work", d=date.today().strftime(u"%Y/%m/%d"))
+log_parser.set_defaults(func=log, type=u"work", d=date.today().strftime(cfg.LOG_DATE_FORMAT))
 
 
 if __name__ == "__main__":
