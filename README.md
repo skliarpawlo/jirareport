@@ -1,6 +1,6 @@
 Jira Report
 ===========
-Small util to make monthly work reports.
+Small util to make monthly work reports. Written in pure python.
 
 Usage:
 ======

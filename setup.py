@@ -1,11 +1,20 @@
 #!/usr/bin/env python
 
 from distutils.core import setup
-setup(name=u'Jira Report',
-      version=u'0.1',
-      description=u'',
-      author=u'skliarpawlo',
-      author_email=u'skliarpawlo@gmail.com',
+
+
+with open("README.md", "r") as f:
+    long_description = f.read()
+
+setup(name='Jira Report',
+      version='0.1',
+      description='Tiny tool for making jira monthly reports + some additional features',
+      long_description=long_description,
+      license="MIT",
+      author='skliarpawlo',
+      author_email='skliarpawlo@gmail.com',
+      keywords = "jira report",
+      url = "https://github.com/skliarpawlo/jirareport",
       packages=['jirareport', 'jirareport.utils', 'jirareport.utils.presenters'],
       scripts=['make.py'],
 )
