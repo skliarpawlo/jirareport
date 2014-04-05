@@ -1,11 +1,11 @@
 import calendar
 from datetime import date
-import config as cfg
-from jira import search_issues
-from logger import calc_log_in_secs
-from time import time_humanize, days_to_sec
-from utils.models import Issue, Holiday, Report
-from utils.presenters.text import render as text_render
+from jirareport import config as cfg
+from jirareport.utils.jira import search_issues
+from jirareport.utils.logger import calc_log_in_secs
+from jirareport.utils.time import time_humanize, days_to_sec
+from jirareport.utils.models import Issue, Holiday, Report
+from jirareport.utils.presenters.text import render as text_render
 
 
 def calc_total(json_response):

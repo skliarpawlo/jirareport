@@ -1,8 +1,12 @@
 import datetime
 import os
-import config as cfg
-from time import str_to_secs, time_humanize
-from utils.models import LogItem
+from jirareport import config as cfg
+from jirareport.utils.time import str_to_secs, time_humanize
+from jirareport.utils.models import LogItem
+
+
+def get_log_file_path(year, month):
+    return os.path.join(cfg.LOG_DIR_PATH, u"storage/{month}-{year}.txt".format(month=month, year=year))
 
 
 def log(args):
@@ -11,7 +15,14 @@ def log(args):
     when = datetime.datetime.strptime(args.d, cfg.LOG_DATE_FORMAT).date()
     typ = args.type
 
-    with open(u"storage/{month}-{year}.txt".format(month=when.month, year=when.year), "a") as f:
+    try:
+        os.makedirs(os.path.join(cfg.LOG_DIR_PATH, "storage"))
+    except OSError:
+        pass
+
+    log_path = get_log_file_path(month=when.month, year=when.year)
+
+    with open(log_path, "a") as f:
         f.write(u"{when}{sep}{how_long}{sep}{typ}{sep}{description}\n".format(
             sep=cfg.LOG_SEPARATOR,
             when=when.strftime(cfg.LOG_DATE_FORMAT),
@@ -25,7 +36,7 @@ def calc_log_in_secs(year, month, types=None, except_types=[]):
     summary = 0
     log = []
 
-    file_name = u"storage/{month}-{year}.txt".format(month=month, year=year)
+    file_name = get_log_file_path(month=month, year=year)
     if not os.path.exists(file_name):
         return summary, log
 

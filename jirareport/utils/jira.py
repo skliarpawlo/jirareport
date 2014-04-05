@@ -3,7 +3,7 @@ import calendar
 from httplib import HTTPSConnection
 import json
 import urllib
-import config as cfg
+from jirareport import config as cfg
 
 
 def search_issues(for_date):

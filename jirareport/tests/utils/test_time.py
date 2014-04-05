@@ -1,5 +1,5 @@
 import unittest
-import utils.time
+import jirareport.utils.time
 
 
 class TestTimeHumanize(unittest.TestCase):
@@ -17,9 +17,9 @@ class TestTimeHumanize(unittest.TestCase):
             hours = test["hours"]
             minutes = test["minutes"]
 
-            in_secs = days * utils.time.cfg.HOURS_IN_DAY * 3600 + hours * 3600 + minutes * 60
+            in_secs = days * jirareport.utils.time.cfg.HOURS_IN_DAY * 3600 + hours * 3600 + minutes * 60
 
-            res = utils.time.time_humanize(in_secs)
+            res = jirareport.utils.time.time_humanize(in_secs)
 
             waited_res = []
             if days > 0:
@@ -44,9 +44,9 @@ class TestTimeHumanize(unittest.TestCase):
             hours = test["hours"]
             minutes = test["minutes"]
 
-            in_secs = days * utils.time.cfg.HOURS_IN_DAY * 3600 + hours * 3600 + minutes * 60
+            in_secs = days * jirareport.utils.time.cfg.HOURS_IN_DAY * 3600 + hours * 3600 + minutes * 60
 
-            res = utils.time.time_humanize(in_secs)
+            res = jirareport.utils.time.time_humanize(in_secs)
 
             self.assertEqual(res, test["ans"])
 
@@ -54,8 +54,8 @@ class TestTimeHumanize(unittest.TestCase):
 class TestStrToSecs(unittest.TestCase):
     def test_str_to_secs_basic(self):
         tests = [
-            {"input": "1d 1h 1m", "output": 1 * utils.time.cfg.HOURS_IN_DAY * 60 * 60 + 1 * 60 * 60 + 1 * 60},
+            {"input": "1d 1h 1m", "output": 1 * jirareport.utils.time.cfg.HOURS_IN_DAY * 60 * 60 + 1 * 60 * 60 + 1 * 60},
         ]
 
         for test in tests:
-            self.assertEqual(utils.time.str_to_secs(test["input"]), test["output"])
+            self.assertEqual(jirareport.utils.time.str_to_secs(test["input"]), test["output"])

@@ -1,6 +1,6 @@
 import unittest
 import datetime
-from utils.report import calc_work_days
+from jirareport.utils.report import calc_work_days
 
 
 class TestCalcWorkDays(unittest.TestCase):

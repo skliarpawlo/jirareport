@@ -1,6 +1,6 @@
-from utils.models import Issue, Report, Holiday, LogItem
-from utils.time import time_humanize
-import config as cfg
+from jirareport import config as cfg
+from jirareport.utils.models import Issue, Report, Holiday, LogItem
+from jirareport.utils.time import time_humanize
 
 
 def render_holiday_log(log):

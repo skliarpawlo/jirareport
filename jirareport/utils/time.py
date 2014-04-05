@@ -1,5 +1,5 @@
 import re
-import config as cfg
+from jirareport import config as cfg
 
 
 def str_to_secs(time):

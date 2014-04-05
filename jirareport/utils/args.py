@@ -1,8 +1,8 @@
 import argparse
 from datetime import date
-from logger import log
-from report import report
-import config as cfg
+from jirareport import config as cfg
+from jirareport.utils.report import report
+from jirareport.utils.logger import log
 
 subcommand_parser = argparse.ArgumentParser(description=u"Util for making monthly reports. Includes:"
                                                         u"searching JIRA tasks for period,"

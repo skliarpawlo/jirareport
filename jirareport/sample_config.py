@@ -1,11 +1,12 @@
-JIRA_URL = "energydeck.atlassian.net"
+import os
+
+JIRA_URL = ""
 USER = ""
 PASSWORD = ""
-PROJECT_ID = "ED"
+PROJECT_ID = ""
 DAYS_IN_WEEK = 5
 HOURS_IN_DAY = 8
-YEAR = 2014
-MONTH = 3
+LOG_DIR_PATH = os.path.join("jirareport", "storage")
 
 HOLIDAYS = {
     u"New Year": { "month": 1, "day": 1 },

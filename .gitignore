@@ -1,4 +1,4 @@
-storage/*
+jirareport/storage/*
 .idea/*
 config.py
 *.pyc

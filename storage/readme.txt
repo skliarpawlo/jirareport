@@ -1,1 +1,0 @@
-Here will be stored data via db or file.
