@@ -106,9 +106,11 @@ def calc_all(for_date):
 
     return Report(
         efficiency=efficiency,
+        issues_secs=issues_secs,
         national_holidays_sec=national_holidays_sec,
         payed_holidays_sec=payed_holidays_sec,
         unpayed_holidays_sec=unpayed_holidays_sec,
+        additional_work_sec=additional_work_sec,
         presence=presence,
         total_issues_time=total,
         # logs
@@ -116,6 +118,7 @@ def calc_all(for_date):
         payed_holidays_log=payed_holidays_log,
         unpayed_holidays_log=unpayed_holidays_log,
         national_holidays_log=national_holidays_log,
+        additional_work_log=additional_work_log,
     )
 
 

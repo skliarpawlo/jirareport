@@ -24,28 +24,46 @@ def render_logged_holiday_log(log):
         )
 
 
-def render(report):
-    assert isinstance(report, Report)
-    print u"############## ISSUES ################"
-    for issue in report.issues_log:
+def render_issues_log(log):
+    for issue in log:
         assert isinstance(issue, Issue)
         print(u"{key} | {estimate} | {summary}".format(
             key=issue.key, estimate=issue.estimate, summary=issue.summary
         ))
 
-    print u""
-    print u"############# HOLIDAYS ###############"
-    if len(report.national_holidays_log) > 0:
-        print u"National:"
-        render_holiday_log(report.national_holidays_log)
 
-    if len(report.payed_holidays_log) > 0:
-        print u"Payed:"
-        render_logged_holiday_log(report.payed_holidays_log)
+def render(report):
 
-    if len(report.unpayed_holidays_log) > 0:
-        print u"Not payed:"
-        render_logged_holiday_log(report.unpayed_holidays_log)
+    if len(report.issues_log) > 0:
+        assert isinstance(report, Report)
+        print u"############## ISSUES ({hours}) ################".format(
+            hours=time_humanize(report.issues_secs, True)
+        )
+        render_issues_log(report.issues_log)
+
+    if len(report.additional_work_log) > 0:
+        print u""
+        print u"######### ADDITIONAL WORK ({hours}) ############".format(
+            hours=time_humanize(report.additional_work_sec, True)
+        )
+        render_logged_holiday_log(report.additional_work_log)
+
+    if len(report.national_holidays_log) > 0 or \
+       len(report.payed_holidays_log) > 0 or \
+       len(report.unpayed_holidays_log) > 0:
+        print u""
+        print u"############# HOLIDAYS ###############"
+        if len(report.national_holidays_log) > 0:
+            print u"National:"
+            render_holiday_log(report.national_holidays_log)
+
+        if len(report.payed_holidays_log) > 0:
+            print u"Payed:"
+            render_logged_holiday_log(report.payed_holidays_log)
+
+        if len(report.unpayed_holidays_log) > 0:
+            print u"Not payed:"
+            render_logged_holiday_log(report.unpayed_holidays_log)
 
     print u""
     print u"#####################################"

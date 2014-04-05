@@ -14,11 +14,13 @@ class Holiday(object):
 class Report(object):
     def __init__(self, efficiency, national_holidays_sec, payed_holidays_sec, unpayed_holidays_sec,
                  presence, issues_log, payed_holidays_log, unpayed_holidays_log, national_holidays_log,
-                 total_issues_time):
+                 total_issues_time, additional_work_log, additional_work_sec, issues_secs):
         self.efficiency = efficiency
+        self.issues_secs = issues_secs
         self.national_holidays_sec = national_holidays_sec
         self.payed_holidays_sec = payed_holidays_sec
         self.unpayed_holidays_sec = unpayed_holidays_sec
+        self.additional_work_sec = additional_work_sec
         self.presence = presence
         self.total_issues_time = total_issues_time
 
@@ -26,6 +28,7 @@ class Report(object):
         self.payed_holidays_log = payed_holidays_log
         self.unpayed_holidays_log = unpayed_holidays_log
         self.national_holidays_log = national_holidays_log
+        self.additional_work_log = additional_work_log
 
 
 class LogItem(object):
