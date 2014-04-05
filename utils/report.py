@@ -4,6 +4,8 @@ import config as cfg
 from jira import search_issues
 from logger import calc_log_in_secs
 from time import time_humanize, days_to_sec
+from utils.models import Issue, Holiday, Report
+from utils.presenters.text import render as text_render
 
 
 def calc_total(json_response):
@@ -14,11 +16,9 @@ def calc_total(json_response):
         summary = issue["fields"]["summary"]
         estimate = issue['fields']['aggregatetimeoriginalestimate']  # in seconds
 
-        log.append({
-            u"key": issue["key"],
-            u"estimate": time_humanize(estimate),
-            u"summary": summary,
-        })
+        log.append(
+            Issue(issue["key"], time_humanize(estimate), summary)
+        )
 
         if type(estimate) == int:
             total_time += estimate
@@ -32,17 +32,17 @@ def calc_national_holidays(month):
     for name, info in cfg.HOLIDAYS.items():
         if info["month"] == month:
             if type(info["day"]) == int:
-                log.append({
-                    u"date": u"{date:02d}.{month:02d}".format(date=info["day"], month=month),
-                    u"name": name,
-                })
+                log.append(Holiday(
+                    u"{date:02d}.{month:02d}".format(date=info["day"], month=month),
+                    name,
+                ))
             else:
-                log.append({
-                    u"date": u"{date}.{month:02d}".format(date=",".join(
+                log.append(Holiday(
+                    u"{date}.{month:02d}".format(date=",".join(
                         ["{date:02d}".format(date=x) for x in info["day"]]
                     ), month=month),
-                    u"name": name,
-                })
+                    name,
+                ))
 
             if type(info["day"]) == int:
                 days += 1
@@ -77,7 +77,7 @@ def calc_presence(for_date):
     work_days_sec = work_days * cfg.HOURS_IN_DAY * 60 * 60
 
     unpayed_holidays_sec, log = calc_log_in_secs(year=for_date.year, month=for_date.month, except_types=['work', 'vacation', 'ill'])
-    return (work_days_sec - unpayed_holidays_sec) / 1.0 * work_days_sec
+    return (work_days_sec - unpayed_holidays_sec) / (1.0 * work_days_sec)
 
 
 def calc_all(for_date):
@@ -104,22 +104,22 @@ def calc_all(for_date):
 
     total = calc_total_sec(issues_secs, additional_work_sec, national_holidays_sec + payed_holidays_sec, efficiency)
 
-    return {
-        "efficiency": efficiency,
-        "national_holidays_sec": national_holidays_sec,
-        "payed_holidays_sec": payed_holidays_sec,
-        "unpayed_holidays_sec": unpayed_holidays_sec,
-        "presence": presence,
-        "logs": {
-            "issues": issues_log,
-            "payed_holidays": payed_holidays_log,
-            "unpayed_holidays":  unpayed_holidays_log,
-            "national_holidays": national_holidays_log,
-        }
-    }
+    return Report(
+        efficiency=efficiency,
+        national_holidays_sec=national_holidays_sec,
+        payed_holidays_sec=payed_holidays_sec,
+        unpayed_holidays_sec=unpayed_holidays_sec,
+        presence=presence,
+        total_issues_time=total,
+        # logs
+        issues_log=issues_log,
+        payed_holidays_log=payed_holidays_log,
+        unpayed_holidays_log=unpayed_holidays_log,
+        national_holidays_log=national_holidays_log,
+    )
 
 
 def report(args):
     for_date = date(args.y, args.m, 1)
-    data = calc_all(for_date)
-    print "EFFICIENCY = {x:.2f}".format(x=data["efficiency"])
+    report_data = calc_all(for_date)
+    text_render(report_data)
