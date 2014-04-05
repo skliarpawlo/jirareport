@@ -39,11 +39,18 @@ Installation:
 
 pip:
 
-    pip install {git_repo}
+    pip install git+https://github.com/skliarpawlo/jirareport.git
 
 manual:
 
-    git clone {git_repo}
+    # enter virtualenv
+    soure /path/to/venv/bin/activate
+    # enter directory of your choice
+    cd /path/to/own/dir
+    git clone git@github.com:skliarpawlo/jirareport.git jirareport
+    cd jirareport
+    python setup.py install
+
 
 
 Configuration:
