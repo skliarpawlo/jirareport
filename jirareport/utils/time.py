@@ -1,5 +1,5 @@
 import re
-from jirareport import config as cfg
+from jirareport.config import settings
 
 
 def str_to_secs(time):
@@ -12,9 +12,9 @@ def str_to_secs(time):
         amount = int(part[:-1])
 
         if unit == "w":
-            in_secs += amount * cfg.DAYS_IN_WEEK * cfg.HOURS_IN_DAY * 60 * 60
+            in_secs += amount * settings.DAYS_IN_WEEK * settings.HOURS_IN_DAY * 60 * 60
         elif unit == "d":
-            in_secs += amount * cfg.HOURS_IN_DAY * 60 * 60
+            in_secs += amount * settings.HOURS_IN_DAY * 60 * 60
         elif unit == "h":
             in_secs += amount * 60 * 60
         elif unit == "m":
@@ -29,11 +29,11 @@ def time_humanize(time_in_sec, hours_only=False):
     if not type(time_in_sec) == int:
         return " - "
 
-    days = time_in_sec / (3600 * cfg.HOURS_IN_DAY)
-    weeks = days / cfg.DAYS_IN_WEEK
-    days = days % cfg.DAYS_IN_WEEK
-    hours = time_in_sec % (3600 * cfg.HOURS_IN_DAY) / 3600
-    mins = time_in_sec % (3600 * cfg.HOURS_IN_DAY) % 3600 / 60
+    days = time_in_sec / (3600 * settings.HOURS_IN_DAY)
+    weeks = days / settings.DAYS_IN_WEEK
+    days = days % settings.DAYS_IN_WEEK
+    hours = time_in_sec % (3600 * settings.HOURS_IN_DAY) / 3600
+    mins = time_in_sec % (3600 * settings.HOURS_IN_DAY) % 3600 / 60
 
     res = []
 
@@ -50,7 +50,7 @@ def time_humanize(time_in_sec, hours_only=False):
         if mins > 0:
             res.append("{mins}m".format(mins=mins))
     else:
-        hours = weeks * cfg.DAYS_IN_WEEK * cfg.HOURS_IN_DAY + days * cfg.HOURS_IN_DAY + hours + mins / 60.0
+        hours = weeks * settings.DAYS_IN_WEEK * settings.HOURS_IN_DAY + days * settings.HOURS_IN_DAY + hours + mins / 60.0
         if hours > 0:
             res.append("{hours:.1f}h".format(hours=hours))
 
@@ -58,4 +58,4 @@ def time_humanize(time_in_sec, hours_only=False):
 
 
 def days_to_sec(days):
-    return days * cfg.HOURS_IN_DAY * 60 * 60
+    return days * settings.HOURS_IN_DAY * 60 * 60

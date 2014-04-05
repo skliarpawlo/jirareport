@@ -1,6 +1,6 @@
 import calendar
 from datetime import date
-from jirareport import config as cfg
+from jirareport.config import settings
 from jirareport.utils.jira import search_issues
 from jirareport.utils.logger import calc_log_in_secs
 from jirareport.utils.time import time_humanize, days_to_sec
@@ -29,7 +29,7 @@ def calc_total(json_response):
 def calc_national_holidays(month):
     days = 0
     log = []
-    for name, info in cfg.HOLIDAYS.items():
+    for name, info in settings.HOLIDAYS.items():
         if info["month"] == month:
             if type(info["day"]) == int:
                 log.append(Holiday(
@@ -74,7 +74,7 @@ def calc_total_sec(issues, add, holi, eff):
 
 def calc_presence(for_date):
     work_days = calc_work_days(for_date)
-    work_days_sec = work_days * cfg.HOURS_IN_DAY * 60 * 60
+    work_days_sec = work_days * settings.HOURS_IN_DAY * 60 * 60
 
     unpayed_holidays_sec, log = calc_log_in_secs(year=for_date.year, month=for_date.month, except_types=['work', 'vacation', 'ill'])
     return (work_days_sec - unpayed_holidays_sec) / (1.0 * work_days_sec)

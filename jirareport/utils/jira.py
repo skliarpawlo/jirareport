@@ -3,7 +3,7 @@ import calendar
 from httplib import HTTPSConnection
 import json
 import urllib
-from jirareport import config as cfg
+from jirareport.config import settings
 
 
 def search_issues(for_date):
@@ -14,17 +14,17 @@ def search_issues(for_date):
     end_date = for_date.replace(day=days_in_month)
 
     jql = "project = {project_id} AND status in (Resolved, Closed) AND resolved >= {start_date} AND resolved <= {end_date} AND assignee in ({user})".format(
-        project_id=cfg.PROJECT_ID,
+        project_id=settings.PROJECT_ID,
         start_date=start_date.strftime("%Y-%m-%d"),
         end_date=end_date.strftime("%Y-%m-%d"),
-        user=cfg.USER,
+        user=settings.USER,
     )
 
     params = urllib.urlencode({"jql": jql})
 
-    conn = HTTPSConnection(cfg.JIRA_URL)
+    conn = HTTPSConnection(settings.JIRA_URL)
 
-    auth_b64 = base64.b64encode(bytes("{user}:{password}".format(user=cfg.USER, password=cfg.PASSWORD)))
+    auth_b64 = base64.b64encode(bytes("{user}:{password}".format(user=settings.USER, password=settings.PASSWORD)))
     conn.request("GET", search_api_path + "?" + params, headers={"Authorization": "Basic " + auth_b64})
 
     resp = conn.getresponse()

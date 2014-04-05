@@ -1,4 +1,4 @@
-from jirareport import config as cfg
+from jirareport.config import settings
 from jirareport.utils.models import Issue, Report, Holiday, LogItem
 from jirareport.utils.time import time_humanize
 
@@ -16,7 +16,7 @@ def render_logged_holiday_log(log):
     for item in log:
         assert isinstance(item, LogItem)
         print u"{date} | {how_long} ({how_long_hours}) | {typ} | {descr}".format(
-            date=item.when.strftime(cfg.LOG_DATE_FORMAT),
+            date=item.when.strftime(settings.LOG_DATE_FORMAT),
             how_long=time_humanize(item.how_long, True),
             how_long_hours=time_humanize(item.how_long, True),
             typ=item.kind,

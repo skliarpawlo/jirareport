@@ -1,5 +1,5 @@
 jirareport/storage/*
 .idea/*
-config.py
+my_config.py
 *.pyc
 *.pyo
