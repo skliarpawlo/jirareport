@@ -6,5 +6,6 @@ setup(name=u'Jira Report',
       description=u'',
       author=u'skliarpawlo',
       author_email=u'skliarpawlo@gmail.com',
-      packages=[u'jirareport', u'jirareport.utils', u'jirareport.utils.presenters'],
+      packages=['jirareport', 'jirareport.utils', 'jirareport.utils.presenters'],
+      scripts=['make.py'],
 )
